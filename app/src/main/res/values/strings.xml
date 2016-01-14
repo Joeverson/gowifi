@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">GoWifi</string>
+    <string name="title_activity_maps">GoWifi</string>
+    <string name="welcome">Welcome the goWifi</string>
+</resources>
