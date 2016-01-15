@@ -1,18 +1,15 @@
 package br.edu.ifpb.dup.imwifi;
 
-import android.graphics.BitmapFactory;
+
 import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.util.Log;
+
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
+import com.android.volley.Request;
+
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -23,6 +20,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Iterator;
 
+import br.br.com.dup.services.json.CustomJsonObjectRequest;
 import br.com.dup.services.db.DB;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -32,14 +30,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Hotpots hotpot;
     private Location location;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        //chamada ao banco de dados
+        //inicializando o banco de dados;
         db = new DB(this);
-        //this.db.setData("Thandercat", "aoaltoeavante", -17.1357158, -4.878808);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -52,7 +50,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in Sydney and move the camera
         Iterator i = this.db.getData().iterator();
-
         while(i.hasNext()) {
             hotpot = (Hotpots) i.next();
 
@@ -68,6 +65,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //event
         mMap.setOnMarkerClickListener(new OnclickMarker());
+    }
+
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        CustomJsonObjectRequest.send(this, Request.Method.GET, CustomJsonObjectRequest.URI_API);
+        Log.i("APP", "here...pause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        CustomJsonObjectRequest.stop();
     }
 
 

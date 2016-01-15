@@ -50,9 +50,9 @@ public class DB {
      * return int
      * */
     public int getCountLines(){
-        String[] cols = new String[]{"ssid", "password","_id"};
+        String[] cols = new String[]{"_id"};
         Cursor pointer = db.query(this.table, cols, null, null,null, null, null);
-        return pointer.getCount();
+        return (pointer.getCount() / 4);
     }
 
     /**

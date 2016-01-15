@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DBCore extends SQLiteOpenHelper {
         private static final String NAME_DB = "gowifi";
-        private static final int VERSION = 1;
+        private static final int VERSION = 2;
 
         public DBCore(Context context) {
             super(context, NAME_DB, null, VERSION);
