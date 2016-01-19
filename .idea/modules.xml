@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Imwifi.iml" filepath="$PROJECT_DIR$/Imwifi.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gowifi.iml" filepath="$PROJECT_DIR$/gowifi.iml" />
       <module fileurl="file://$PROJECT_DIR$/volleytwo/volleytwo.iml" filepath="$PROJECT_DIR$/volleytwo/volleytwo.iml" />
     </modules>
   </component>

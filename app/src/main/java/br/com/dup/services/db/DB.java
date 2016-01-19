@@ -8,6 +8,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.dup.services.wifimanager.WifiControl;
 import br.edu.ifpb.dup.imwifi.Hotpots;
 
 /**
@@ -15,12 +16,14 @@ import br.edu.ifpb.dup.imwifi.Hotpots;
  */
 public class DB {
 
-    private SQLiteDatabase db;
+    private SQLiteDatabase dbw;
+    private SQLiteDatabase dbr;
     private String table = "hotpots";
 
     public DB(Context context){
         DBCore dbCore = new DBCore(context);
-        this.db = dbCore.getWritableDatabase(); // pega a instacia do db
+        this.dbw = dbCore.getWritableDatabase(); // pega a instacia do db
+        this.dbr = dbCore.getReadableDatabase(); // pega a instacia do db
     }
 
 
@@ -38,7 +41,7 @@ public class DB {
         args.put("longitude", longitude);
 
         //para atualizar ou criar se não existir
-        if(db.insert(this.table, null, args) == -1)
+        if(dbw.insert(this.table, null, args) == -1)
             return false;
         return true;
     }
@@ -51,8 +54,8 @@ public class DB {
      * */
     public int getCountLines(){
         String[] cols = new String[]{"_id"};
-        Cursor pointer = db.query(this.table, cols, null, null,null, null, null);
-        return (pointer.getCount() / 4);
+        Cursor pointer = dbr.query(this.table, cols, null, null,null, null, null);
+        return (pointer.getCount());
     }
 
     /**
@@ -63,7 +66,7 @@ public class DB {
      * */
     public List getData(){
         List<Hotpots> list = new ArrayList<Hotpots>();
-        Cursor cursor = this.db.query(this.table, new String[] { "ssid", "password", "latitude","longitude" },null, null, null, null, "ssid desc");
+        Cursor cursor = this.dbr.query(this.table, new String[] { "ssid", "password", "latitude","longitude" },null, null, null, null, "ssid desc");
 
         if (cursor.moveToFirst()) {
             do {
@@ -79,6 +82,26 @@ public class DB {
         return list;
     }
 
+    public Boolean exist(String in){
+        Cursor cursor = this.dbr.rawQuery("select ssid from "+table+" where ssid = "+in, null);
+        Boolean rResult = true; //variavel de retorno .. para n ficar sheiod e return no code.
+
+        if(cursor == null){
+            Log.e(WifiControl.APP_TAG, "Error no cursor, não foi retornado nada no banco:: line 87");
+            return true;
+        }
+
+
+        if (cursor.moveToFirst()) {
+            rResult = false;
+        }
+
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+
+        return rResult;
+    }
 
 
 }

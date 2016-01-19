@@ -1,6 +1,5 @@
-package br.br.com.dup.services.json;
+package br.com.dup.services.json;
 
-import android.app.DownloadManager;
 import android.content.Context;
 
 import com.android.volley.Cache;

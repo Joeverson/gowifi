@@ -1,4 +1,4 @@
-package br.br.com.dup.services.json;
+package br.com.dup.services.json;
 
 import android.content.Context;
 import android.support.v4.app.NotificationManagerCompat;
@@ -17,7 +17,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import br.com.dup.services.db.DB;
 import br.edu.ifpb.dup.imwifi.R;
@@ -75,7 +74,7 @@ public class CustomJsonObjectRequest extends JsonObjectRequest{
 
 
         mQueue.add(new CustomJsonObjectRequest(method, url+params, new JSONObject(), new EventJSON(), new EventJSON()));
-        Log.i("APP", url+params);
+        //Log.i("APP", url+params);
     }
 
     public static void setParams(String key, String value){
@@ -93,14 +92,14 @@ public class CustomJsonObjectRequest extends JsonObjectRequest{
 
     public static String getError(){
         if(error == null)
-            error = "error nothing";
+            error = "";
 
         return error;
     }
 
     public static String getResponse(){
         if(response == null)
-            response = "response nothing";
+            response = "";
 
         return response;
     }
@@ -115,10 +114,8 @@ public class CustomJsonObjectRequest extends JsonObjectRequest{
         @Override
         public void onResponse(Object response) {
             try {
-                Log.i("APP", response.toString());
+                //Log.i("APP", response.toString());
                 JSONObject json = new JSONObject(response.toString());
-
-
 
                 // verifica o status caso seja atualozar ele vai ler um outro campo que vai ser 
                 //enviado com os dados para ser jogado no banco de dados local
@@ -134,21 +131,17 @@ public class CustomJsonObjectRequest extends JsonObjectRequest{
                                 Double.parseDouble(array.getJSONObject(i).getString("longitude")));
                     }
 
-
                     //notificacao para o usuario de novas atualizacoes.
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
                     builder.setTicker("GoWifi");
-                    builder.setContentText("Acabei de saber que tem \n novas redes wifi descobertas.");
+                    builder.setContentText("Acabei de saber que tem novas redes wifi descobertas.");
                     builder.setContentTitle("Ei, Tenho novidades!!");
-                    builder.setSubText("Os desbravadores estão explorando \n muito, não fique para atrás");
+                    builder.setSubText("Os desbravadores estão explorando muito, não fique para atrás");
                     builder.setSmallIcon(R.mipmap.ic_directions_boat_white_24dp);
 
                     NotificationManagerCompat nmc = NotificationManagerCompat.from(context);
                     nmc.notify(1, builder.build());
                 }
-
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }

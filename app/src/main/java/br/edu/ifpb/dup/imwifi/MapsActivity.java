@@ -20,7 +20,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Iterator;
 
-import br.br.com.dup.services.json.CustomJsonObjectRequest;
+import br.com.dup.services.json.CustomJsonObjectRequest;
 import br.com.dup.services.db.DB;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -66,7 +66,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //event
         mMap.setOnMarkerClickListener(new OnclickMarker());
     }
-
 
     @Override
     protected void onPause(){
