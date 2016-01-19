@@ -1,6 +1,8 @@
 package br.com.dup.services.json;
 
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
@@ -19,6 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import br.com.dup.services.db.DB;
+import br.com.dup.services.notification.Notification;
+import br.edu.ifpb.dup.imwifi.MapsActivity;
 import br.edu.ifpb.dup.imwifi.R;
 
 /**
@@ -131,16 +135,11 @@ public class CustomJsonObjectRequest extends JsonObjectRequest{
                                 Double.parseDouble(array.getJSONObject(i).getString("longitude")));
                     }
 
-                    //notificacao para o usuario de novas atualizacoes.
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-                    builder.setTicker("GoWifi");
-                    builder.setContentText("Acabei de saber que tem novas redes wifi descobertas.");
-                    builder.setContentTitle("Ei, Tenho novidades!!");
-                    builder.setSubText("Os desbravadores estão explorando muito, não fique para atrás");
-                    builder.setSmallIcon(R.mipmap.ic_directions_boat_white_24dp);
+                    Intent it = new Intent(context, MapsActivity.class);
 
-                    NotificationManagerCompat nmc = NotificationManagerCompat.from(context);
-                    nmc.notify(1, builder.build());
+                    PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, it, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    Notification.create(context, "Ei, Tenho novidades!!", "Acabei de saber que tem novas redes wifi descobertas.", pendingIntent);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

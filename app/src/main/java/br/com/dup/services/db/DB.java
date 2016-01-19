@@ -82,8 +82,25 @@ public class DB {
         return list;
     }
 
+    public Boolean nearNetwork(Double latitude, Double longitude){
+
+        // fazendo um raio de +- 10 metros (usando uma logica bem idiota)
+        Double latitudeM = latitude + 00.0005000;
+        Double longitudeM = longitude + 00.0005000;
+
+        Cursor cursor = this.dbr.rawQuery("select * from ? where (latitude between ? and ?) and (longitude between ? and ?)", new String [] {table, String.valueOf(latitude), String.valueOf(latitudeM), String.valueOf(longitude), String.valueOf(longitudeM)});
+
+        if(cursor == null)
+            return false;
+
+        if(cursor.moveToFirst())
+            return true;
+
+        return false;
+    }
+
     public Boolean exist(String in){
-        Cursor cursor = this.dbr.rawQuery("select ssid from "+table+" where ssid = "+in, null);
+        Cursor cursor = this.dbr.rawQuery("select * from ? where ssid=?"+in, new String[] { table, in });
         Boolean rResult = true; //variavel de retorno .. para n ficar sheiod e return no code.
 
         if(cursor == null){
