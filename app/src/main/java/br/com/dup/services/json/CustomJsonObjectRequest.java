@@ -22,6 +22,7 @@ import java.util.Map;
 
 import br.com.dup.services.db.DB;
 import br.com.dup.services.notification.Notification;
+import br.com.dup.services.wifimanager.WifiControl;
 import br.edu.ifpb.dup.imwifi.MapsActivity;
 import br.edu.ifpb.dup.imwifi.R;
 
@@ -74,6 +75,7 @@ public class CustomJsonObjectRequest extends JsonObjectRequest{
         //para fazer o teste e ve se precisa atualizar o banco local
         if(params == null){
             params = "?c="+db.getCountLines();
+            Log.e(WifiControl.APP_TAG, String.valueOf(db.getCountLines()));
         }
 
 
@@ -136,7 +138,6 @@ public class CustomJsonObjectRequest extends JsonObjectRequest{
                     }
 
                     Intent it = new Intent(context, MapsActivity.class);
-
                     PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, it, PendingIntent.FLAG_UPDATE_CURRENT);
 
                     Notification.create(context, "Ei, Tenho novidades!!", "Acabei de saber que tem novas redes wifi descobertas.", pendingIntent);

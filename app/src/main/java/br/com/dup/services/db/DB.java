@@ -53,9 +53,8 @@ public class DB {
      * return int
      * */
     public int getCountLines(){
-        String[] cols = new String[]{"_id"};
-        Cursor pointer = dbr.query(this.table, cols, null, null,null, null, null);
-        return (pointer.getCount());
+        Cursor pointer = dbr.query(this.table, new String[]{"_id"}, null, null, null, null, null);
+        return (pointer.getCount()/4);
     }
 
     /**
